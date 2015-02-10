@@ -3,7 +3,7 @@
     "description": "Yii2 - Nozzha Ajaxy",
     "type": "yii2-extension",
     "keywords": ["yii2"," extension"],
-    "license": "GPL-2.0+",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Nozzha",

@@ -1,0 +1,1 @@
+composer.phar require nozzha/nozzha-ajaxy:dev-master
