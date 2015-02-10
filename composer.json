@@ -1,0 +1,21 @@
+{
+    "name": "nozzha/nozzha-ajaxy",
+    "description": "Yii2 - Nozzha Ajaxy",
+    "type": "yii2-extension",
+    "keywords": ["yii2"," extension"],
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Nozzha",
+            "email": "info@nozzha.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "nozzha\\ajaxy\\": ""
+        }
+    }
+}
