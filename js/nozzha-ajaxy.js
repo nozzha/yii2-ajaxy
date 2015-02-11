@@ -13,19 +13,38 @@ var $nozzha = {
     /**
      * 
      * @param {string} url
-     * @param {json} params parameters to be send with the get query
-     * @param {function} callback called after submiting the form
-     *  or canceling the dialog
+     * @param {object} _options
      * @returns {this}
      */
     $nozzha.ajaxy.showFormDialog = function (url, _options) {
         $nozzha.ajaxy.options = $.extend(true, {
+            autoFocus: true,
             dialog: function (result) {
                 $nozzha.ajaxy.dialog = bootbox.dialog({
                     message: result,
                     onEscape: function () {
                         $nozzha.ajaxy.options.result(null, false, -1);
                     }
+                });
+
+                if (!$nozzha.ajaxy.options.autoFocus) {
+                    return;
+                }
+
+                $nozzha.ajaxy.dialog.bind('shown.bs.modal', function () {
+                    // Gets the first input element in the dialog
+                    var element = $nozzha.ajaxy.dialog.find("input:text, textarea").first();
+
+                    // Checks whether the element is undefined
+                    if (!element.attr('value')) {
+                        return;
+                    }
+
+                    // Focuses the element
+                    element.focus();
+                    // Resets the caret at the end of the text
+                    element.val(element.val());
+                    console.log($nozzha.ajaxy.dialog.find("input:text, textarea").first());
                 });
             },
             result: function (result, status, code) {
@@ -62,7 +81,7 @@ var $nozzha = {
         if (status) {
             $nozzha.ajaxy.dialog.modal('hide');
         }
-        
+
         $nozzha.ajaxy.options.result(resp, status, status ? 0 : 1);
     };
 }(jQuery));
