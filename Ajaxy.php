@@ -48,11 +48,8 @@ class Ajaxy extends \yii\base\Object {
                 var \$form = $(this);
                 var test = \$form.serializeArray();
                 test.push({ name: 'nozzhaAjaxySubmit', value : '1' });
-                console.log(test);
-                // console.log(nozzhaAjaxySubmit);
                 $.post(\$form.attr('action'), test)
                     .done(function(response) {
-                        console.log(response);
                         \$nozzha.ajaxy.responseCallback(true, response);
                     }).fail(function(){
                         \$nozzha.ajaxy.responseCallback(false, null);
