@@ -19,7 +19,7 @@ var $nozzha = {
      * @returns {this}
      */
     $nozzha.ajaxy.showFormDialog = function (url, _options) {
-        $nozzha.ajaxy.options = $.extend({
+        $nozzha.ajaxy.options = $.extend(true, {
             dialog: function (result) {
                 $nozzha.ajaxy.dialog = bootbox.dialog({
                     message: result,
