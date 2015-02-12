@@ -44,7 +44,6 @@ var $nozzha = {
                     element.focus();
                     // Resets the caret at the end of the text
                     element.val(element.val());
-                    console.log($nozzha.ajaxy.dialog.find("input:text, textarea").first());
                 });
             },
             result: function (result, status, code) {
