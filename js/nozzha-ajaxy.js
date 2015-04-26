@@ -1,5 +1,9 @@
-/* 
- * TODO complete the documentation of the API
+/**
+ * @link https://github.com/EmadOmar/nozzha-ajaxy/
+ * @author Emad Omar <emad2030@gmail.com>
+ * @license https://github.com/EmadOmar/nozzha-ajaxy/blob/master/LICENSE The MIT License (MIT)
+ *
+ * TODO complete the documentation of the JS API
  */
 
 
@@ -10,6 +14,7 @@ var $nozzha = {
 };
 
 (function ($) {
+
     /**
      * Shows a form dialog of a view specified by a url
      * 
@@ -20,6 +25,7 @@ var $nozzha = {
      */
     $nozzha.ajaxy.showFormDialog = function (url, _options) {
 
+        // FIXME this should be a local variable and should has no global access
         $nozzha.ajaxy.options = $.extend(true, {
             autoFocus: true,
             dialog: function (result) {
@@ -34,6 +40,7 @@ var $nozzha = {
                     return;
                 }
 
+                // FIXME this should be a local variable and should has no global access
                 $nozzha.ajaxy.dialog.bind('shown.bs.modal', function () {
                     // Gets the first input element in the dialog
                     var element = $nozzha.ajaxy.dialog.find("input:text, textarea").first();
@@ -80,6 +87,10 @@ var $nozzha = {
         return this;
     };
 
+    /**
+     * TODO document this function
+     * FIXME this should be a local function and has no global access
+     */
     $nozzha.ajaxy.responseCallback = function (status, resp) {
         if (status) {
             $nozzha.ajaxy.dialog.modal('hide');
@@ -100,9 +111,7 @@ var $nozzha = {
         $form.on('beforeSubmit', function () {
             var data = $form.serializeArray();
 
-            data.push({name: 'nozzhaAjaxy', value: true});
             data.push({name: 'nozzhaAjaxySubmit', value: true});
-            data.push({name: 'newNozzhaAjaxy', value: true});
 
             $.post($form.attr('action'), data)
                     .done(function (response) {
