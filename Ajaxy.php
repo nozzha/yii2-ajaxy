@@ -3,63 +3,102 @@
 namespace nozzha\ajaxy;
 
 use Yii;
+use yii\web\Request;
+use yii\web\Response;
+use yii\web\View;
 
 class Ajaxy extends \yii\base\Object {
 
+    /**
+     * Registers the asset bundle of Ajaxy with a view.
+     * 
+     * @param View $view The view to be registered with
+     */
     public static function registerAssets($view) {
-        AssetBundle::register($view);
-    }
-
-    public static function isAjaxy() {
-        if (!Yii::$app->request->isAjax) {
-            return false;
-        }
-
-        return (boolean) Yii::$app->request->get('nozzhaAjaxy', false);
-    }
-
-    public static function isSubmited() {
-        if (!Yii::$app->request->isAjax) {
-            return false;
-        }
-
-        return (boolean) Yii::$app->request->post('nozzhaAjaxySubmit', false);
-    }
-
-    public static function response($status, $data = []) {
-        return [
-            'status' => $status,
-            'data' => $data
-        ];
+        AjaxyAssetBundle::register($view);
     }
 
     /**
+     * Checks whether the current request is an Ajaxy request
      * 
-     * @param \yii\web\View $view
-     * @param string $formId
+     * @return boolean Whether the current request is an Ajaxy request
+     */
+    public static function isAjaxy() {
+        /* @var $request Request */
+        $request = Yii::$app->request;
+
+        if (!$request->isAjax) {
+            // If this is not an ajax request then it is not an Ajaxy request
+            return false;
+        }
+
+        return !!$request->get('nozzhaAjaxy', false);
+    }
+
+    /**
+     * Checks whether the Ajaxy request is submitted
+     * 
+     * @deprecated since version 0.2 Due to the misspelling in the function name -_- . Apologize.
+     *      Use `Ajaxy::isSubmitted()` instead
+     * @return boolean Whether the Ajaxy request is submitted
+     */
+    public static function isSubmited() {
+        Yii::warning('Use of a deprecated function `Ajaxy::isSubmited()`. Please use `Ajaxy::isSubmitted()` instead.', 'nozzha/nozzha-ajaxy');
+
+        return self::isSubmitted();
+    }
+
+    /**
+     * Checks whether the Ajaxy request is submitted
+     * 
+     * @return boolean Whether the Ajaxy request is submitted
+     */
+    public static function isSubmitted() {
+        if (!self::isAjaxy()) {
+            // If it is not an Ajaxy request then it is not a submitted Ajaxy
+            return false;
+        }
+
+        /* @var $request Request */
+        $request = Yii::$app->request;
+
+        return !!$request->post('nozzhaAjaxySubmit', false);
+    }
+
+    /**
+     * Prepares a response to return to the Ajaxy ajax request
+     * 
+     * @param boolean $status Whether the operation has succeeded
+     * @param mixed $data The response data that you want to return
+     * @param boolean $jsonFormat Whether to change the application response format to JSON format
+     * @return array The prepared Ajaxy ajax response
+     */
+    public static function response($status, $data = [], $jsonFormat = true) {
+        $response = ['status' => $status, 'data' => $data];
+
+        if ($jsonFormat) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+        }
+
+        return $response;
+    }
+
+    /**
+     * Attaches a `submit`, and a `beforeSubmit` event listener to the form
+     * when the view is requested by an Ajaxy request
+     * 
+     * @param View $view The view to be registered with
+     * @param string $formId The form id of the view
      */
     public static function form($view, $formId) {
         if (!self::isAjaxy()) {
-            return;
+            //return;
         }
 
+        self::registerAssets($view);
+
         $view->registerJs("
-            $('form#{$formId}').on('beforeSubmit', function(e) {
-                var \$form = $(this);
-                var test = \$form.serializeArray();
-                test.push({ name: 'nozzhaAjaxySubmit', value : '1' });
-                $.post(\$form.attr('action'), test)
-                    .done(function(response) {
-                        \$nozzha.ajaxy.responseCallback(true, response);
-                    }).fail(function(){
-                        \$nozzha.ajaxy.responseCallback(false, null);
-                    });
-                
-            }).on('submit', function(e){
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                return false;
-            });
+            \$nozzha.ajaxy.attachToForm(\$('form#{$formId}'));
         ");
     }
 

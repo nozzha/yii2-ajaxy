@@ -1,9 +1,9 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * TODO complete the documentation of the API
  */
 
+
+/* global bootbox */
 
 var $nozzha = {
     ajaxy: {}
@@ -11,12 +11,15 @@ var $nozzha = {
 
 (function ($) {
     /**
+     * Shows a form dialog of a view specified by a url
      * 
-     * @param {string} url
-     * @param {object} _options
+     * @param {string} url The full url of the needed view
+     * @param {object} _options The options to customize the request
+     * and to set a callback
      * @returns {this}
      */
     $nozzha.ajaxy.showFormDialog = function (url, _options) {
+
         $nozzha.ajaxy.options = $.extend(true, {
             autoFocus: true,
             dialog: function (result) {
@@ -67,6 +70,7 @@ var $nozzha = {
                 nozzhaAjaxy: true
             }
         }, _options);
+
         $.get(url, $nozzha.ajaxy.options.data).done(function (result) {
             $nozzha.ajaxy.options.dialog(result);
         }).fail(function () {
@@ -82,5 +86,34 @@ var $nozzha = {
         }
 
         $nozzha.ajaxy.options.result(resp, status, status ? 0 : 1);
+    };
+
+    /**
+     * Attaches a `submit`, and a `beforeSubmit` event listener to the form
+     * when the view is requested by an Ajaxy request to handle it by the
+     * Ajaxy api
+     * 
+     * @param {$} $form The form jQuery object
+     * @returns {undefined}
+     */
+    $nozzha.ajaxy.attachToForm = function ($form) {
+        $form.on('beforeSubmit', function () {
+            var data = $form.serializeArray();
+
+            data.push({name: 'nozzhaAjaxy', value: true});
+            data.push({name: 'nozzhaAjaxySubmit', value: true});
+            data.push({name: 'newNozzhaAjaxy', value: true});
+
+            $.post($form.attr('action'), data)
+                    .done(function (response) {
+                        $nozzha.ajaxy.responseCallback(true, response);
+                    }).fail(function () {
+                $nozzha.ajaxy.responseCallback(false, null);
+            });
+        }).on('submit', function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        });
     };
 }(jQuery));
