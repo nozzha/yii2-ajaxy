@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Nozzha Ajaxy 0.2-alpha
+ * 
  * @link https://github.com/EmadOmar/nozzha-ajaxy/
  * @author Emad Omar <emad2030@gmail.com>
  * @license https://github.com/EmadOmar/nozzha-ajaxy/blob/master/LICENSE The MIT License (MIT)
@@ -21,7 +23,7 @@ class AjaxyAssetBundle extends \yii\web\AssetBundle {
     public $js = [
         // FIXME should be added as a dependency instead
         'ext/bootbox_v4.3.0/js/bootbox.min.js',
-        'js/nozzha-ajaxy.js'
+        'js/nozzha-ajaxy.min.js'
     ];
     public $depends = [
         'yii\web\JqueryAsset',
