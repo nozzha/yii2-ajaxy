@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Nozzha Ajaxy 0.2-alpha
+ * 
  * @link https://github.com/EmadOmar/nozzha-ajaxy/
  * @author Emad Omar <emad2030@gmail.com>
  * @license https://github.com/EmadOmar/nozzha-ajaxy/blob/master/LICENSE The MIT License (MIT)
