@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://github.com/EmadOmar/nozzha-ajaxy/
+ * @author Emad Omar <emad2030@gmail.com>
+ * @license https://github.com/EmadOmar/nozzha-ajaxy/blob/master/LICENSE The MIT License (MIT)
+ */
+
 namespace nozzha\ajaxy;
 
 use Yii;
@@ -7,6 +13,10 @@ use yii\web\Request;
 use yii\web\Response;
 use yii\web\View;
 
+/**
+ * TODO document this class (overview)
+ * @since 0.1
+ */
 class Ajaxy extends \yii\base\Object {
 
     /**
@@ -43,7 +53,7 @@ class Ajaxy extends \yii\base\Object {
      * @return boolean Whether the Ajaxy request is submitted
      */
     public static function isSubmited() {
-        Yii::warning('Use of a deprecated function `Ajaxy::isSubmited()`. Please use `Ajaxy::isSubmitted()` instead.', 'nozzha/nozzha-ajaxy');
+        Yii::warning('Use of a deprecated method `Ajaxy::isSubmited()`. Please use `Ajaxy::isSubmitted()` instead.', 'nozzha/nozzha-ajaxy');
 
         return self::isSubmitted();
     }
@@ -54,13 +64,13 @@ class Ajaxy extends \yii\base\Object {
      * @return boolean Whether the Ajaxy request is submitted
      */
     public static function isSubmitted() {
-        if (!self::isAjaxy()) {
-            // If it is not an Ajaxy request then it is not a submitted Ajaxy
-            return false;
-        }
-
         /* @var $request Request */
         $request = Yii::$app->request;
+
+        if (!$request->isAjax) {
+            // If it is not an ajax request then it is not a submitted Ajaxy form
+            return false;
+        }
 
         return !!$request->post('nozzhaAjaxySubmit', false);
     }
@@ -92,14 +102,12 @@ class Ajaxy extends \yii\base\Object {
      */
     public static function form($view, $formId) {
         if (!self::isAjaxy()) {
-            //return;
+            return;
         }
 
         self::registerAssets($view);
 
-        $view->registerJs("
-            \$nozzha.ajaxy.attachToForm(\$('form#{$formId}'));
-        ");
+        $view->registerJs("\$nozzha.ajaxy.attachToForm(\$('form#{$formId}'));");
     }
 
 }
