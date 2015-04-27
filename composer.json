@@ -2,16 +2,17 @@
     "name": "nozzha/nozzha-ajaxy",
     "description": "Yii2 - Nozzha Ajaxy",
     "type": "yii2-extension",
-    "keywords": ["yii2"," extension"],
+    "keywords": ["yii2"," extension", "ajaxy", "ajax-form", "form", "form-dialog"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Nozzha",
-            "email": "info@nozzha.com"
+            "name": "Emad Omar",
+            "email": "emad2030@gmail.com"
         }
     ],
     "require": {
-        "yiisoft/yii2": "*"
+        "yiisoft/yii2": "~2.0.0",
+        "bower-asset/bootbox": "4.4.*"
     },
     "autoload": {
         "psr-4": {

@@ -27,7 +27,7 @@ class Ajaxy extends \yii\base\Object {
      * @param View $view The view to be registered with
      */
     public static function registerAssets($view) {
-        AjaxyAssetBundle::register($view);
+        AjaxyAsset::register($view);
     }
 
     /**
