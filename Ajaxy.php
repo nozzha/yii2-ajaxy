@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Nozzha Ajaxy 0.2-alpha
+ * Nozzha Ajaxy 1.0
  * 
  * @link https://github.com/EmadOmar/nozzha-ajaxy/
- * @author Emad Omar <emad2030@gmail.com>
+ * @copyright (c) 2014, Nozzha (nozzha.com)
  * @license https://github.com/EmadOmar/nozzha-ajaxy/blob/master/LICENSE The MIT License (MIT)
  */
 
@@ -17,7 +17,7 @@ use yii\web\View;
 
 /**
  * TODO document this class (overview)
- * @since 0.1
+ * @since 1.0
  */
 class Ajaxy extends \yii\base\Object {
 
