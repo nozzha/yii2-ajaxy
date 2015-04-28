@@ -18,7 +18,7 @@ namespace nozzha\ajaxy;
  */
 class AjaxyAsset extends \yii\web\AssetBundle {
 
-    public $sourcePath = '@vendor/nozzha/nozzha-ajaxy/';
+    public $sourcePath = '@vendor/nozzha/yii2-ajaxy/';
     public $js = [
         'js/nozzha-ajaxy.min.js',
     ];

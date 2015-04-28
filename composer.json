@@ -1,6 +1,6 @@
 {
-    "name": "nozzha/nozzha-ajaxy",
-    "description": "Yii2 - Nozzha Ajaxy",
+    "name": "nozzha/yii2-ajaxy",
+    "description": "Nozzha Ajaxy - Actions Dialog via Ajax extension for Yii 2",
     "type": "yii2-extension",
     "keywords": ["yii2"," extension", "ajaxy", "ajax-form", "form", "form-dialog"],
     "license": "MIT",
