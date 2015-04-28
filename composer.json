@@ -1,5 +1,5 @@
 {
-    "name": "nozzha/nozzha-ajaxy",
+    "name": "nozzha/yii2-ajaxy",
     "description": "Yii2 - Nozzha Ajaxy",
     "type": "yii2-extension",
     "keywords": ["yii2"," extension", "ajaxy", "ajax-form", "form", "form-dialog"],
