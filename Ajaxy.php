@@ -16,7 +16,9 @@ use yii\web\Response;
 use yii\web\View;
 
 /**
- * TODO document this class (overview)
+ * TODO document this class and add a description for it
+ * 
+ * @author Emad Omar <emad2030@gmail.com>
  * @since 1.0
  */
 class Ajaxy extends \yii\base\Object {
