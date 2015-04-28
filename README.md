@@ -1,9 +1,20 @@
-*TODO* better readme description and api and usage documentation
-// Test new branch (Newbie in git branches !^_^)
+Actions Dialog via Ajax for Yii 2
+===========================================
 
-Yii2 - Nozzha Ajaxy
-===================
-Yii2 - Nozzha Ajaxy
+Nozzha Ajaxy is a [Yii 2.0](http://www.yiiframework.com/) extension that provides
+a simple API to show an action via a dialog box in the page using the Bootstrap plugin [Bootbox](http://bootboxjs.com/).
+
+Ajaxy was designed to display either a create or an update actions dialog box.
+In other words, an action that has a single form.
+
+> *Note:* Ajaxy was not tested with actions that does not have a form like a `view` or `index` action.
+
+For license information check the [LICENSE](LICENSE.md)-file.
+
+[![Latest Stable Version](https://poser.pugx.org/nozzha/yii2-ajaxy/v/stable)](https://packagist.org/packages/nozzha/yii2-ajaxy)
+[![Total Downloads](https://poser.pugx.org/nozzha/yii2-ajaxy/downloads)](https://packagist.org/packages/nozzha/yii2-ajaxy)
+[![Latest Unstable Version](https://poser.pugx.org/nozzha/yii2-ajaxy/v/unstable)](https://packagist.org/packages/nozzha/yii2-ajaxy)
+[![License](https://poser.pugx.org/nozzha/yii2-ajaxy/license)](https://packagist.org/packages/nozzha/yii2-ajaxy)
 
 Installation
 ------------
@@ -13,85 +24,49 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist nozzha/nozzha-ajaxy "*"
+php composer.phar require --prefer-dist nozzha/yii2-ajaxy
 ```
 
 or add
 
-```
-"nozzha/nozzha-ajaxy": "*"
+```json
+"nozzha/yii2-ajaxy": "~1.0"
 ```
 
-to the require section of your `composer.json` file.
+to the require section of your composer.json.
 
 
 Usage
 -----
 
-Firstly you should not forget:
+There are two steps for using Ajaxy
+
+### 1. Handle Ajaxy requests
+    
+#### 1.1. Preparing the View
+
+For Ajaxy to display the dialog box of the requested action, it will need
+to request for the view content first, and to retrieve the view at the proper time and request
+
+You'll first use `Ajaxy::isAjaxy()` to check if this is an Ajaxy request that
+asks for the view content, and then return the content using [`Controller::renderAjax()`](http://www.yiiframework.com/doc-2.0/yii-web-controller.html#renderAjax()-detail).
+
+i.e.:
+
+in the controller
 
 ```php
-<?php
-use nozzha\ajaxy\Ajaxy;
-?>
-```
-
-Start by registering the the AssetBundle in the action that you want to use Ajaxy in.
-For example in a 'index.php' action:
-
-```php
- public function actionIndex() {
-    Ajaxy::registerAssets($this->getView());
-
-    return $this->render('index');
+if (Ajaxy::isAjaxy()) {
+    return $this->renderAjax('create', $params);
 }
 ```
 
-In the create/update action you should do the following:
+and in the view (in our example `create.php`) attach Ajaxy to the form using
+`Ajaxy::form($view, $formId)`
 
-```php
-public function actionCreate() {
-    $model = new SomeModel();
+i.e.:
 
-    // Loading the model data
-    // @var boolean $posted checks whether the model data have been sent
-    $posted = $model->load(Yii::$app->request->post());
-
-    if ($posted && Yii::$app->request->isAjax) {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        if ($model->validate() && Ajaxy::isSubmited()) {
-            $model->save();
-
-            // Some data to return to the js callback function
-            $data = ['id' => $model->ID, 'name' => $model->name];
-            return Ajaxy::response(true, $data);
-        }
-
-        // You would uncomment the following code if you set `enableAjaxValidation` to `true` in your `ActiveForm`
-        //return ActiveForm::validate($model);
-    }
-
-    /**
-     * Your normall Yii2 code
-     */
-    if ($posted && $model->save()) {
-        return $this->redirect(['view', 'id' => $model->ID]);
-    } else {
-        // To return the form to be put in the modal
-        if (Ajaxy::isAjaxy()) {
-            return $this->renderAjax('create', ['model' => $model]);
-        }
-
-        return $this->render('create', ['model' => $model]);
-    }
-}
 ```
-
-You should also consider calling the `Ajaxy::form()` function in the `_form` view.
-To allow sending the form via Ajax and to call the js `callback` function after sending the form.
-
-```php
 <?php
 $form = ActiveForm::begin([
     'enableAjaxValidation' => true, // Is up to you
@@ -104,10 +79,38 @@ $form = ActiveForm::begin([
 <?php Ajaxy::form($this, $form->id); ?>
 ```
 
-Now the only thing left is to call the `showFormDialog` js function in the `index.php` action
+#### 1.2. Handle the submitted form and return the response
 
-From the global js, you should be able to call:
+When the submits the form, Ajaxy will post it via `ajax` to the specified `action`,
+and you may need to handle this request differently to return the proper response.
 
-```js
-$nozzha.ajaxy.showFormDialog(url, _options);
+Ajaxy provides to methods to do so, `Ajaxy::isSubmitted()` that checks whether
+the Ajaxy form has submitted. And `Ajaxy::response()` that prepares a response for
+the Ajaxy request.
+
+i.e.:
+
+```php
+if (Ajaxy::isSubmitted()) {
+    // Handle model validation create, update or save ...
+    return Ajaxy::response($status, $data);
+}
 ```
+
+And now the action is ready to provide it's view and to handle the submitted form.
+
+
+### 2. Display the Dialog Box
+
+#### 1. Register Ajaxy assets
+
+To link the JavaScript api of Ajaxy register it's asset bundle
+
+```php
+Ajaxy::registerAssets($view);
+```
+
+#### 2. Show the Dialog
+
+and then in your JavaScript code call `$nozzha.ajaxy.showFormDialog(url, options)`
+to show a dialog box of a view that you want to display
