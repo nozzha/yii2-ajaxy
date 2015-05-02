@@ -10,10 +10,12 @@
 
 namespace nozzha\ajaxy;
 
+use Exception;
 use Yii;
 use yii\web\Request;
 use yii\web\Response;
 use yii\web\View;
+use yii\widgets\ActiveForm;
 
 /**
  * TODO document this class and add a description for it
@@ -46,7 +48,7 @@ class Ajaxy extends \yii\base\Object {
             return false;
         }
 
-        return !!$request->get('nozzhaAjaxy', false);
+        return !!$request->get('_nozzhaAjaxy', false);
     }
 
     /**
@@ -76,7 +78,7 @@ class Ajaxy extends \yii\base\Object {
             return false;
         }
 
-        return !!$request->post('nozzhaAjaxySubmit', false);
+        return !!$request->post('_nozzhaAjaxySubmit', false);
     }
 
     /**
@@ -98,20 +100,42 @@ class Ajaxy extends \yii\base\Object {
     }
 
     /**
-     * Attaches a `submit`, and a `beforeSubmit` event listener to the form
+     * Attaches a `submit` event listener to the form
      * when the view is requested by an Ajaxy request
      * 
      * @param View $view The view to be registered with
-     * @param string $formId The form id of the view
+     * @param ActiveForm $form The target active form
      */
-    public static function form($view, $formId) {
+    public static function attachTo($view, ActiveForm $form) {
         if (!self::isAjaxy()) {
             return;
         }
 
-        self::registerAssets($view);
+        // The Ajaxy box id
+        $id = self::getId();
 
-        $view->registerJs("\$nozzha.ajaxy.attachToForm(\$('form#{$formId}'));");
+        $view->registerJs("\$ajaxy.attachTo(\$('form#{$form->id}'), '{$id}');");
+    }
+
+    /**
+     * Returns the Ajaxy box id that was sent by the Ajaxy JavaScript API
+     * when it requested the view
+     * 
+     * @return string The sent id
+     * @throws Exception If no id was found when Ajaxy requested the view
+     */
+    protected static function getId() {
+        /* @var $request Request */
+        $request = Yii::$app->request;
+        // Ajaxy box id
+        $id = $request->get('_nozzhaAjaxyId', null);
+
+        // Checks whether the box id was sent
+        if ($id === null) {
+            throw new Exception('Callback id of `nozzha/yii2-ajaxy` was not sent with the ajaxy request');
+        }
+
+        return $id;
     }
 
 }
