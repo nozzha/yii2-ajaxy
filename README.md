@@ -1,4 +1,4 @@
-Nozzha Ajax 2.0: Actions Dialog via Ajax for Yii 2
+Nozzha Ajaxy 2.0: Actions Dialog via Ajax for Yii 2
 ===========================================
 
 Nozzha Ajaxy is a [Yii 2.0](http://www.yiiframework.com/) extension that provides
