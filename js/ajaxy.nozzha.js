@@ -162,7 +162,7 @@
      *          }
      *      });
      * 
-     * @param {Options} _options
+     * @param {Options} _options Ajaxy options, url and callbacks.
      */
     _ajaxy.showModalForm = function (_options) {
         // Gets a copy of the defaul options
@@ -194,7 +194,7 @@
     /**
      * Translates the phrases of the dialog
      * 
-     * @param {_phrase} _phrases
+     * @param {_phrase} _phrases The phrases that you want to translate.
      */
     _ajaxy.translate = function (_phrases) {
         $.extend(_phrase, _phrases);
