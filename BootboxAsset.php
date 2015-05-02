@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Nozzha Ajaxy 1.0
+ * Nozzha Ajaxy 2.0
  * 
  * @link https://github.com/nozzha/nozzha-ajaxy/
  * @copyright (c) 2014, Nozzha (nozzha.com)

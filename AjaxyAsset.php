@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Nozzha Ajaxy 1.0
+ * Nozzha Ajaxy 2.0
  * 
  * @link https://github.com/nozzha/nozzha-ajaxy/
  * @copyright (c) 2014, Nozzha (nozzha.com)
@@ -20,7 +20,7 @@ class AjaxyAsset extends \yii\web\AssetBundle {
 
     public $sourcePath = '@vendor/nozzha/yii2-ajaxy/';
     public $js = [
-        'js/ajaxy.nozzha.js',
+        'js/ajaxy.nozzha.min.js',
     ];
     public $depends = [
         'nozzha\ajaxy\BootboxAsset',
