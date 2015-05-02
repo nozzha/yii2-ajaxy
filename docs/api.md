@@ -104,30 +104,7 @@ array response( $status, $data = [], $jsonFormat = true )
     </tr>
 </table>
 
-
-## Ajaxy JavaScript 
-
-### `$ajaxy.attachTo()`
-
-Prepares a response to return to the Ajaxy ajax request.
-
-```js
-void $ajaxy.attachTo( jQuery $form, String _boxId )
-```
-
-<table width="100%">
-    <tr>
-        <td width="120px" valign="top"><code>$view</code></td>
-        <td valign="top"><a href="http://www.yiiframework.com/doc-2.0/yii-web-view.html">\yii\web\View</a></td>	
-        <td valign="top">The view to be registered with</td>	
-    </tr>
-</table>
-
-### `$ajaxy.showModalForm()`
-
-
-
-## Ajaxy JavaScript 
+## Ajaxy JavaScript API
 
 ### `$ajaxy.attachTo()`
 
@@ -161,7 +138,7 @@ void $ajaxy.showModalForm( Options _options )
 <table width="100%">
     <tr>
         <td width="120px" valign="top"><code>_options</code></td>
-        <td valign="top"><a href="#">Options</a></td>	
+        <td valign="top"><a href="#ajaxyoptions">Options</a></td>	
         <td valign="top">Ajaxy options, url and callbacks.</td>	
     </tr>
 </table>
@@ -179,5 +156,47 @@ void $ajaxy.translate( _phrase _phrases )
         <td width="120px" valign="top"><code>_phrases</code></td>
         <td valign="top"><a href="#">_phrase</a></td>	
         <td valign="top">The phrases that you want to translate.</td>	
+    </tr>
+</table>
+
+### `$ajaxy.Options`
+
+The available options in Ajaxy 2.0
+
+<table width="100%">
+    <tr>
+        <td width="200px" valign="top"><code>url</code></td>
+        <td valign="top"><a href="https://developer.mozilla.org/en-US/docs/Glossary/String">String</a></td>	
+        <td valign="top">The full url to the controller action</td>	
+    </tr>
+    <tr>
+        <td width="200px" valign="top"><code>data</code></td>
+        <td valign="top"><a href="https://developer.mozilla.org/en-US/docs/Glossary/Object">object</a></td>	
+        <td valign="top">Some data to send to the server when requesting the view of the action. This can be used to fill some inputs with initial data.</td>	
+    </tr>
+    <tr>
+        <td width="200px" valign="top"><code>autoFocus</code></td>
+        <td valign="top"><a href="https://developer.mozilla.org/en-US/docs/Glossary/Boolean">boolean</a></td>	
+        <td valign="top">Whether to focus the first input of the form after displaying the modal box. Default: <code>true</code></td>	
+    </tr>
+    <tr>
+        <td width="200px" valign="top"><code>onCreateView</code><br><code>( String result )</code></td>
+        <td valign="top"><a href="https://developer.mozilla.org/en-US/docs/Glossary/Function">function</a><br><i><small>[callback]</small></i></td>	
+        <td valign="top">Called after receiving the content of the action view. So it can be rendered and displayed to the user.</td>	
+    </tr>
+    <tr>
+        <td width="200px" valign="top"><code>onError</code><br><code>( Number code )</code></td>
+        <td valign="top"><a href="https://developer.mozilla.org/en-US/docs/Glossary/Function">function</a><br><i><small>[callback]</small></i></td>	
+        <td valign="top">Called when an error occurred while requesting the view from the server, submitting the form, the received `status` property from the server is false or when the user closes the view modal box.</td>	
+    </tr>
+    <tr>
+        <td width="200px" valign="top"><code>onProgress</code><br><code>( Number type )</code></td>
+        <td valign="top"><a href="https://developer.mozilla.org/en-US/docs/Glossary/Function">function</a><br><i><small>[callback]</small></i></td>	
+        <td valign="top">Called before requesting the view and before submitting the form to indicate a background process (The ajax request).</td>	
+    </tr>
+    <tr>
+        <td width="200px" valign="top"><code>onResult</code><br><code>( Object result )</code></td>
+        <td valign="top"><a href="https://developer.mozilla.org/en-US/docs/Glossary/Function">function</a><br><i><small>[callback]</small></i></td>	
+        <td valign="top">Called after submiting the form and after receiving the result from the server.</td>	
     </tr>
 </table>
