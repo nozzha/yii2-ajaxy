@@ -51,7 +51,7 @@ to request for the view content first, and to retrieve the view at the proper ti
 You'll first use `Ajaxy::isAjaxy()` to check if this is an Ajaxy request that
 asks for the view content, and then return the content using [`Controller::renderAjax()`](http://www.yiiframework.com/doc-2.0/yii-web-controller.html#renderAjax()-detail).
 
-i.e.:
+Example:
 
 in the controller
 
@@ -62,21 +62,23 @@ if (Ajaxy::isAjaxy()) {
 ```
 
 and in the view (in our example `create.php`) attach Ajaxy to the form using
-`Ajaxy::form($view, $formId)`
+`Ajaxy::attachTo($view, $activeForm)`
 
-i.e.:
+> *Note:* You should set an id for the form to avoid duplicate ids when requesting the view via Ajax
+
+Example:
 
 ```
 <?php
 $form = ActiveForm::begin([
     'enableAjaxValidation' => true, // Is up to you
-    'id' => $model->formName(), // You need to set the id of the form
+    'id' => $model->formName(), // You need to set an id for the form
     'action' => ['create'] // Recommended
 ]);
 ?>
 ...
 <?php ActiveForm::end(); ?>
-<?php Ajaxy::form($this, $form->id); ?>
+<?php Ajaxy::attachTo($this, $form); ?>
 ```
 
 #### 1.2. Handle the submitted form and return the response
@@ -88,7 +90,7 @@ Ajaxy provides to methods to do so, `Ajaxy::isSubmitted()` that checks whether
 the Ajaxy form has submitted. And `Ajaxy::response()` that prepares a response for
 the Ajaxy request.
 
-i.e.:
+Example:
 
 ```php
 if (Ajaxy::isSubmitted()) {
@@ -112,5 +114,20 @@ Ajaxy::registerAssets($view);
 
 #### 2. Show the Dialog
 
-and then in your JavaScript code call `$nozzha.ajaxy.showFormDialog(url, options)`
+and then in your JavaScript code call `$ajaxy.showModalForm(options)`
 to show a dialog box of a view that you want to display
+
+Example:
+
+```js
+$ajaxy.showModalForm({
+    url: 'http://example.com/controller/action',
+    data: {
+        User: { displayName: 'User Name' }
+    },
+    onResult: function (result) {
+        console.log(result.data);
+        // console.log("Created User #" + result.data.ID); // Example
+    }
+});
+```
